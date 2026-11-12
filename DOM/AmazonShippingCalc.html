@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>amazon shipping calculator</h1>
+    <p>order under $40 = +$10 shipping.</p>
+    <p>order over $40 = FREE shipping.</p>
+    <input type="number" name="" id="PriceInput">
+    <button id="btn">Calculate</button>
+    <div id="totalDisplay"></div>
+
+    <script>
+        let Price;
+        let display = document.getElementById('totalDisplay');
+        document.getElementById('btn').onclick = function(){
+            Price= Number(document.getElementById('PriceInput').value);
+            if (Price >= 40){
+                display.textContent = `Total bill = ${Price}`;
+            }else{
+                Price = Price + 10;
+                display.textContent = `Total bill =${Price}`;
+            }
+        }
+        
+       
+    </script>
+</body>
+</html>

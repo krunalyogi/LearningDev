@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Functions</title>
+</head>
+<body>
+    <h1 id="h1">enter your name:</h1>
+    <input type="text" id="input">
+    <button id="btn">send</button>
+    <div id="response"></div>
+    <script>
+        document.getElementById("btn").onclick=function(){
+            const name = document.getElementById("input").value;
+            document.getElementById("response").textContent = `hello ${name}`;
+        }
+    </script>
+</body>
+</html>
