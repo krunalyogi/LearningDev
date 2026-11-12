@@ -1,45 +1,181 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Todo List</title>
+
     <style>
-        *{
+        * {
             font-family: Arial, Helvetica, sans-serif;
+            box-sizing: border-box;
         }
-        #AddBtn{
+
+        body {
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        #AddBtn {
             color: white;
             background-color: green;
-            padding: 10px 30px;   
-            font-size: 15px;      
-            border-radius: 8px;   
+            padding: 10px 30px;
+            font-size: 15px;
+            border: none;
+            border-radius: 8px;
             cursor: pointer;
-            
         }
-        #ListDate{
-            padding: 10px 20px;
-            font-size: 15px; 
+
+        #ListDate,
+        #ListText {
+            padding: 10px 12px;
+            font-size: 15px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
         }
-        #ListText{
-            padding: 10px 20px;
+
+        #container {
+            margin-top: 20px;
+        }
+
+        .todo-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            padding: 12px 16px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+
+        .todo-item p {
+            margin: 0;
+        }
+
+        .todo-item p:first-child {
+            flex: 1;
+        }
+
+        .todo-item .todo-date {
+            color: #666;
+        }
+
+        #error {
+            color: red;
+            margin-top: 10px;
         }
     </style>
 </head>
+
 <body>
     <h1>Todo List</h1>
+
     <input type="text" id="ListText" placeholder="Enter Text Here">
-    <input type="date" id="ListDate" name="" min="" max="" />
+    <input type="date" id="ListDate">
     <button id="AddBtn">Add</button>
-    <div id="list"></div>
+
+    <div id="container"></div>
+    <div id="error"></div>
 
     <script>
-        let inputText = []; 
-        document.getElementById('AddBtn').onclick = function(){
-            inputText.push(document.getElementById('ListText').value);
-            console.log(inputText);
-            document.getElementById('ListText').value = '';
+        let savedData = localStorage.getItem('TODO');
+
+        let TODO = savedData ? JSON.parse(savedData) : [];
+
+        let textinput = document.getElementById('ListText');
+        let dateinput = document.getElementById('ListDate');
+        let container = document.getElementById('container');
+        let error = document.getElementById('error');
+
+
+        function saveTodo() {
+            let jsondata = JSON.stringify(TODO);
+            localStorage.setItem('TODO', jsondata);
         }
+
+
+        function Addtodo() {
+            let todotext = textinput.value.trim();
+            let tododate = dateinput.value;
+
+            TODO.push({
+                id: crypto.randomUUID(),
+                text: todotext,
+                date: tododate
+            });
+
+            saveTodo();
+
+            textinput.value = '';
+            dateinput.value = '';
+
+            error.textContent = '';
+
+            showtodo();
+        }
+
+
+        function showtodo() {
+            container.innerHTML = '';
+
+            TODO.forEach(function(todo) {
+                let text = document.createElement('p');
+                text.textContent = todo.text;
+
+                let date = document.createElement('p');
+                date.textContent = todo.date;
+                date.className = 'todo-date';
+
+                let parent = document.createElement('div');
+                parent.className = 'todo-item';
+
+                parent.append(text);
+                parent.append(date);
+
+                container.append(parent);
+
+                deletetodo(parent, todo.id);
+            });
+        }
+
+
+        function deletetodo(parent, id) {
+            let deletebtn = document.createElement('button');
+            deletebtn.textContent = 'delete';
+
+            deletebtn.onclick = function() {
+                let index = TODO.findIndex(function(todo) {
+                    return todo.id === id;
+                });
+
+                if (index !== -1) {
+                    TODO.splice(index, 1);
+                    saveTodo();
+                    parent.remove();
+                }
+            };
+
+            parent.append(deletebtn);
+        }
+
+
+        document.getElementById('AddBtn').onclick = function() {
+            if (textinput.value.trim() === '' || dateinput.value === '') {
+                error.textContent = 'Enter text and date first!';
+            } else {
+                Addtodo();
+            }
+
+            console.log(TODO);
+        };
+
+
+        // Display saved todos when the page loads
+        showtodo();
+
     </script>
 </body>
 </html>
