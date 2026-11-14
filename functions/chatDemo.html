@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="container">
+        <div id="error"></div>
+    </div>
+     <input type="" id="msg-input">
+    <button id="send">send</button>
+    
+</body>
+<script>
+    
+    let container = document.getElementById('container');
+    let sendbtn = document.getElementById('send');
+    let msginput = document.getElementById('msg-input');
+
+    function showerror(){
+        document.getElementById('error').textContent = 'cant send empty text';
+    }
+
+    function addmessage(){
+        document.getElementById('error').textContent = '';
+        let messagetxt = document.getElementById('msg-input').value;
+        if(messagetxt.trim()){ 
+            let showmsg = document.createElement('p');
+            showmsg.textContent = messagetxt;
+            container.appendChild(showmsg);
+            document.getElementById('msg-input').value='';
+        }
+        else{
+            showerror();
+        }   
+    }
+    
+    msginput.addEventListener('keydown',(event)=>{
+        if(event.key === 'Enter'){
+            addmessage();
+        }
+    })
+    sendbtn.addEventListener('click',addmessage);
+</script>
+</html>
