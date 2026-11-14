@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        console.log("User is online");
+        let checkcount = 0;
+        
+        let UserStatus = function(){
+            let Status = navigator.onLine;
+            if(Status){
+                return "User is online";
+            }else{
+                return "User is offline";
+            }
+            
+        }
+        const CheckStatus = setInterval(function(){
+            checkcount++;
+            console.log(UserStatus());
+            console.log("Checking user status...");
+            if(checkcount===15){
+                clearInterval(CheckStatus);
+                console.log("Status checking done...");
+            }
+        }, 3000);
+
+        
+    </script>
+</body>
+</html>
