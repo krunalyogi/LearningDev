@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        //asyncronus 
+        setTimeout(function() {
+            //syncronus execution of console log 
+            console.log("hello");
+            console.log("end");
+        },3000);
+        console.log("waiting for 3 sec...");
+
+        setInterval(function(){
+            console.log("interval");
+        },3000);
+    </script>
+</body>
+</html>
